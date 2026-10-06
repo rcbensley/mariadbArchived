@@ -1,0 +1,41 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.define "db1", primary: true do |db1|
+    db1.vm.box = "centos/8"
+    db1.vm.hostname = "db1"
+    db1.vm.network "forwarded_port", guest: 3306, host: 4406
+    db1.vm.network "private_network", ip: "172.10.10.10"
+    db1.vm.provider "virtualbox" do |vb1|
+      vb1.name = "db1"
+      vb1.memory = "512"
+    end
+    db1.vm.provision "shell", path: "setup.sh"
+  end
+
+  config.vm.define "db2", primary: true do |db2|
+    db2.vm.box = "centos/8"
+    db2.vm.hostname = "db2"
+    db2.vm.network "forwarded_port", guest: 3306, host: 4407
+    db2.vm.network "private_network", ip: "172.10.10.11"
+    db2.vm.provider "virtualbox" do |vb2|
+      vb2.name = "db2"
+      vb2.memory = "512"
+    end
+    db2.vm.provision "shell", path: "setup.sh"
+  end
+
+  config.vm.define "db3", primary: true do |db3|
+    db3.vm.box = "centos/8"
+    db3.vm.hostname = "db3"
+    db3.vm.network "forwarded_port", guest: 3306, host: 4408
+    db3.vm.network "private_network", ip: "172.10.10.12"
+    db3.vm.provider "virtualbox" do |vb2|
+      vb2.name = "db3"
+      vb2.memory = "512"
+    end
+    db3.vm.provision "shell", path: "setup.sh"
+  end
+
+end
